@@ -6,7 +6,9 @@ Since the rise of Deep Learning, neural networks have become a household name.  
 
 So successful have they been that people sometimes forget their unloved and more homely cousins - spiking neural networks.  Spiking networks have a long history of being very promising, but not really working.  We believe this is about to change.  
 
-This website came about because reviewers often questioned the basic reasons behind what we are doing.  Rather then repeatedly rebut and try to argue the same ideas, we will now refer you to:
+This website came about because reviewers often questioned the basic reasons behind what we are doing.  Rather then repeatedly defend the ideas behind spiking networks, we will now refer to:
+
+---
 
 # The Spiking Manifesto
 
@@ -36,4 +38,15 @@ What we want is a network that accepts data once it arrives, and can do a partia
 This is where spiking networks come in.
 
 
-2) 
+2) Efficiency
+
+
+<iframe  title="Tiger Walk" width="480" height="390" src="https://youtu.be/1i9wgX_JN54" frameborder="0" allowfullscreen></iframe>
+
+
+
+3) 
+
+
+---
+
