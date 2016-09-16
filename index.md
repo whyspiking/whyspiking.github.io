@@ -12,41 +12,51 @@ This website came about because reviewers often questioned the basic reasons beh
 
 # The Spiking Manifesto
 
-...
+In the last 5 years, the machine learning community has recognized that Deep Learning if going to be central to the future of the field. Deep Learning allows for the creation of models that can learn an arbitrary number of levels of abstraction. This appears to be important when trying to parse abstract concepts (e.g. the presence of a cat, a bird flapping it’s wings, or a car turning) from raw
+data. In 2012, the ImageNet competition (a competition for recognizing objects in natural images) was won by Krizhevsky et al. [2012] with the use of a Deep Neural Network. Every year since then, ImageNet, as well as many other machine learning competitions, have been dominated by variations on Deep Neural Networks.  
 
-## What are spiking networks?
+## So, what's wrong with Deep Learning?
 
-...
+"If it ain't broke, don't fix it", they say.  Here's what's broke about Deep Learning:
 
-## Why should we use them?
+### (mis-)Handling Multi-Rate Data
 
 
-1) Asynchrony
-
-Imagine the following situation:
-
-You have a robot, running on a conventional deep network, possibly with recurrent  or connections.  It has many sensors, and those sensors are running at different rates.  A gyroscope may be running at 1000Hz, and a camera may be running at 30Hz.  All of these signals are relavent to action, and we want to act on a signal from the moment it comes it.  
-
-Presumably, we'll want to fuse these sensory signals into some kind of latent representation of the word.  We may, for instance, have the following architecture:
+Let’s imagine we are trying to train a robot to perform some task. Typically, robotic systems have many sensors running at different rates. We assume that we want to merge all these sensory representations into some unified abstract representation of the world around our robot, and make decisions (via motor controls) based on this representation. 
 
 ![multi-rate](https://docs.google.com/drawings/d/1fTgn1gKVK92OBBp6H8Muwpal7oVVCizpgPJ9APVbPog/pub?w=721&h=188)
 
-The question arises: How often should we update the joint representation?  If we update at the rate of the fastest sensor, we're doing a huge amount of repeated computation, since we recompute the entire joint network for each new gyro signal, even though the image is fixed.  If we update at the rate of the slowest sensor, we have to wait for the next frame of the camera arrives before we're able to respond to something from the gyro.  Neither of these options is really satisfying.
+The above figure shows a schematic of how such a network may be structured. Various sensors, with vastly different update rates, are fed into the network, and it uses these sensory inputs, along with its previous state, to decide on some motor actions. The problem is how to update this system. We may chose to update the network at the rate of the fastest sensor - the gyro - but this involves doing many updates on our joint representation with a fixed set of features coming from the camera - a very redundant computation. Or we may chose to update at the rate of the slowest sensor - the camera - and process a temporally binned version of the recent gyro signal, but then lose the ability to update our motor signal quickly in response to changes in the gyro. So we have a tradeoff between efficiency and low-latency.  
 
-What we want is a network that accepts data once it arrives, and can do a partial-update of its state to accomodate this new data.  In order to be computationally tractable, a partial update should cost substationally less than a full update of the network.
+### Inefficiency
+Current approaches to deep learning can be obscenely inefficient when processing natural data.  Suppose we want to keep track of the some variable relating to the tiger in Figure 2. You may, as a human, be trying to evaluate the threat posed by such an animal. How fast it is moving, whether it is coming towards you, and how hungry it looks, are important variables in this decision. Using the traditional way of doing deep learning, we would feed each individual frame into a neural network, and recompute our estimated variables. This, of course, involves doing a huge amount of redundant computation. It is much better to feed in sparse data that represents what has changed, and update our estimated variables based on that.
 
-This is where spiking networks come in.
+![tiger-walk](https://docs.google.com/drawings/d/1AbM0UFIwlQ1MNZyUKQWNxiDIIXFwqn4BCPMEEfeQdC8/pub?w=595&h=199)
 
-
-2) Efficiency
-
-
-<iframe  title="Tiger Walk" width="480" height="390" src="https://youtu.be/1i9wgX_JN54" frameborder="0" allowfullscreen></iframe>
+The temporal sparsity may not be restricted to the raw input. Higher level features (for example, the presence of a triangular ear or a salivating feline tongue), will persist over time, and should not have to be continually re-reported through feedforward or recurrent connections in order to maintain a model of the state of the tiger.
 
 
+## How can Spiking Help?
 
-3) 
+What we need is a way to efficiently implement a deep neural network in a setting with temporally sparse, variable-rate data.
 
+### What is "spiking" anyway?
+“Spiking Neural Network” is not a very strictly defined term. Loosely, it refers to a type of network that was inspired by biological neural networks. Such networks consist of neurons that have some persistent “potential’, and alter each-others’ potentials by sending “spikes” to one another. When unit i sends a spike, it increments the potential of each downstream unit j in proportion to the synaptic weight Wi,j connecting the units. If this increment brings unit j’s potential past some threshold, unit j sends a spike to its downstream units. Such systems therefore have the interesting property that the amount of computation done depends on the contents of the data, rather than the size of the network, since a neuron may be tuned to produce more spikes in response to some pattern of inputs than another.  Spiking networks allow us to circumvent the efficiency-latency tradeoff discussed in Section 2. If a spike is particularly important for predicting the variable of interest, the network will learn to give a higher weight to that event, and for it to propagate quickly through the network. Rather than have a global network update - data is simply pushed into the network as it arrives. Neurons will update their state only upon receiving input from other neurons, and can learn to fire spikes only when important data arrives.
+
+Because of these properties, there has been a great deal of investment in hardware to efficiently run spiking neural networks. IBM’s TrueNorth [Merolla et al., 2014], and University of Manchester’s Spinnaker [Khan et al., 2008] are examples. But thus far, there has been no clear use for these technologies. The problem appears to be a lack of effective ways to train spiking neural networks.
+
+### The Asynchrony Argument 
+...
+
+
+### The Efficiency Argument 
+...
+
+
+### The Hardware Argument 
+...
+
+### The Biological-Plausibility Argument
+...
 
 ---
-
