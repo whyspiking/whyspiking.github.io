@@ -12,15 +12,11 @@ This website came about because reviewers often questioned the basic reasons beh
 
 # The Spiking Manifesto
 
-In the last 5 years, the machine learning community has recognized that Deep Learning if going to be central to the future of the field. Deep Learning allows for the creation of models that can learn an arbitrary number of levels of abstraction. This appears to be important when trying to parse abstract concepts (e.g. the presence of a cat, a bird flapping it’s wings, or a car turning) from raw
-data. In 2012, the ImageNet competition (a competition for recognizing objects in natural images) was won by Krizhevsky et al. with the use of a Deep Neural Network. Every year since then, ImageNet, as well as many other machine learning competitions, have been dominated by variations on Deep Neural Networks.  
-
 ## So, what's wrong with Deep Learning?
 
 "If it ain't broke, don't fix it", they say.  Here's what's broke about Deep Learning:
 
-### (mis-)Handling Multi-Rate Data
-
+### (Mis-)Handling of Asynchronous Data
 
 Let’s imagine we are trying to train a robot to perform some task. Typically, robotic systems have many sensors running at different rates. We assume that we want to merge all these sensory representations into some unified abstract representation of the world around our robot, and make decisions (via motor controls) based on this representation. 
 
@@ -48,15 +44,16 @@ Because of these properties, there has been a great deal of investment in hardwa
 ### The Asynchrony Argument 
 ...
 
-
 ### The Efficiency Argument 
 ...
-
 
 ### The Hardware Argument 
 ...
 
 ### The Biological-Plausibility Argument
+...
+
+## What must be done?
 ...
 
 ---
