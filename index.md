@@ -27,7 +27,7 @@ The above figure shows a schematic of how such a network may be structured. Vari
 ### Inefficiency
 Current approaches to deep learning can be obscenely inefficient when processing natural data.  Suppose we want to keep track of the some variable relating to the tiger in the following figure. You may, as a human, be trying to evaluate the threat posed by such an animal. How fast it is moving, whether it is coming towards you, and how hungry it looks, are important variables in this decision. Using the traditional way of doing deep learning, we would feed each individual frame into a neural network, and recompute our estimated variables. This, of course, involves doing a huge amount of redundant computation. It is much better to feed in sparse data that represents what has changed, and update our estimated variables based on that.
 
-![tiger-walk](https://docs.google.com/drawings/d/1AbM0UFIwlQ1MNZyUKQWNxiDIIXFwqn4BCPMEEfeQdC8/pub?w=595&h=199)
+![tiger-walk](/images/tiger.png?w=595&h=199)
 
 The temporal sparsity may not be restricted to the raw input. Higher level features (for example, the presence of a triangular ear or a salivating feline tongue), will persist over time, and should not have to be continually re-reported through feedforward or recurrent connections in order to maintain a model of the state of the tiger.
 
